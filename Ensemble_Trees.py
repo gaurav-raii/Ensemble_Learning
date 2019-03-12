@@ -5,7 +5,7 @@ Created on Mon Feb 25 13:05:26 2019
 """
 import numpy as np
 import pandas as pd
-#importing the excel file
+#importing the excel file as pandas data frame
 df=pd.read_excel("oilproduction.xlsx")
 # encoding the categorical data
 def my_encoder(z):
@@ -21,7 +21,7 @@ X= np.asarray(df.drop(columns="Log_Cum_Production"))
 Y= df["Log_Cum_Production"]
 Y = np.asarray(Y)
 
-# Fitting Decision trees  
+# Fitting Decision trees using Cross Validation with different depths. 
 from sklearn.model_selection import cross_val_score
 score_list=['neg_mean_squared_error','neg_mean_absolute_error']
 search_depths=[3,4,5,6,7,8,9,10,11,12,13,14,15]
@@ -45,7 +45,7 @@ for k in range(13):
         Decision_Tree_Metrics_Table.loc[k,s]= -(Decision_Tree_Metrics_Table.loc[k,s])
 Decision_Tree_Metrics_Table .rename(columns={'neg_mean_squared_error': 'mean_squared_error', 'neg_mean_absolute_error': 'mean_absolute_error'}, inplace=True)        
 
-#best depth = 7 for decision trees  as it has the least cross validation mean abolute error 
+#best depth = 7 for decision trees  as it has the least cross validation mean abolute error , Fitting a tree with this depth
  dtr= DecisionTreeRegressor(criterion="mse", max_depth=7, min_samples_split=5,min_samples_leaf=5)
  dtf = dtr.fit(X, Y) 
 from AdvancedAnalytics import DecisionTree
